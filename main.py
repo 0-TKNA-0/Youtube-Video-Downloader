@@ -22,6 +22,9 @@ class App(ctk.CTk):
         # changes the title bar colour
         self.changeTitleBarColour()
 
+        # data
+        switch_toggle = "dark"
+
         # Gridded Layout
         self.columnconfigure(0, weight = 1)
         self.rowconfigure(0, weight = 1)
@@ -46,15 +49,64 @@ class TopFrame(ctk.CTkFrame):
     def __init__(self, parent):
         # text attributes
         headerFont = ctk.CTkFont(family = font, size = headerTextSize, weight = "bold")
-        super().__init__(master = parent, corner_radius = buttonCornerRadius)
+
+        light_image = ctk.CTkImage(Image.open("light.png"), size=(30,30))
+        dark_image = ctk.CTkImage(Image.open("dark.png"), size=(30,30))
+
+        super().__init__(master = parent, corner_radius = buttonCornerRadius, bg_color = "#374A67")
         self.grid(row = 0, column = 0, sticky = "nsew", padx = 10, pady = 10)
 
-        header = ctk.CTkLabel(
+        self.dark_button = ctk.CTkButton(
+            self,
+            width=35,
+            height=35,
+            text="",
+            image=dark_image,
+            font=("Ubuntu", 15, "bold"),
+            fg_color=("#374A67"),
+            command=self.dark_mode)
+        self.dark_button.pack(side = "right", anchor = "ne", padx = 10, pady = 10, fill = "both")
+
+        self.header = ctk.CTkLabel(
             master = self,
             text = "YouTube Video Downloader", 
             font = headerFont, 
             text_color = white)
-        header.pack(fill = "both", expand = True, padx = 5, pady = 5)
+        self.header.pack(fill = "both", expand = True, padx = 5, pady = 5, )
+
+
+        self.light_button = ctk.CTkButton(
+            self,
+            width=35,
+            height=35,
+            text="",
+            image=light_image,
+            font=("Ubuntu", 15, "bold"),
+            fg_color=("#374A67"),
+            command=self.light_mode)
+
+
+    def light_mode(self):
+        global switch_toggle
+        ctk.set_appearance_mode("light")
+        switch_toggle = "light"
+        self.configure( fg_color ="white")
+        
+        self.light_button.pack_forget()
+        self.header.pack_forget()
+        self.dark_button.pack(side = "right", anchor = "ne", padx = 10, pady = 10, fill = "both")
+        self.header.pack(fill = "both", expand = True, padx = 5, pady = 5)
+
+    def dark_mode(self):
+        global switch_toggle
+        ctk.set_appearance_mode("dark")
+        switch_toggle = "dark"
+        self.configure(fg_color ="#374A67")
+
+        self.dark_button.pack_forget()
+        self.header.pack_forget()
+        self.light_button.pack(side = "right", anchor = "ne", padx = 10, pady = 10, fill = "both")
+        self.header.pack(fill = "both", expand = True, padx = 5, pady = 5)
 
 
 App()
