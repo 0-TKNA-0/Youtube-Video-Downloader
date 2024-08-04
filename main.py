@@ -31,6 +31,7 @@ class App(ctk.CTk):
         self.rowconfigure(1, weight = 2)
 
         TopFrame(self)
+        MiddleFrame(self)
 
 
         self.mainloop()
@@ -64,7 +65,7 @@ class TopFrame(ctk.CTkFrame):
             image=dark_image,
             font=("Ubuntu", 15, "bold"),
             fg_color=("#374A67"),
-            command=self.dark_mode)
+            command = self.dark_mode)
         self.dark_button.pack(side = "right", anchor = "ne", padx = 10, pady = 10, fill = "both")
 
         self.header = ctk.CTkLabel(
@@ -107,6 +108,30 @@ class TopFrame(ctk.CTkFrame):
         self.header.pack_forget()
         self.light_button.pack(side = "right", anchor = "ne", padx = 10, pady = 10, fill = "both")
         self.header.pack(fill = "both", expand = True, padx = 5, pady = 5)
+
+class MiddleFrame(ctk.CTkFrame):
+    def __init__(self, parent):
+
+        middleFont = ctk.CTkFont(family = font, size = textSize, weight = "bold")
+        super().__init__(
+            master = parent, 
+            corner_radius = buttonCornerRadius, 
+            bg_color = "#374A67")
+        self.grid(column = 0, row = 1, sticky = "nsew", padx = 10, pady = 10)
+
+
+        ctk.CTkLabel(
+            self, 
+            text = "Enter A Youtube URL", 
+            font = middleFont).pack(pady = 20)
+
+        ctk.CTkEntry(
+            self, 
+            placeholder_text = "                                        www.youtube.com/watch",
+            width=500,
+            height=40
+            ).pack(pady = 30)
+
 
 
 App()
